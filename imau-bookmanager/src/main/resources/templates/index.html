@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>登录</h1>
+
+        <el-input v-model="username" placeholder="请输入内容"></el-input>
+        <el-input v-model="password" placeholder="请输入内容"></el-input>
+        <el-button type="primary" @click="addRequset()">添加</el-button>
+
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.7.0/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        const data = {
+            bookName: "丁真",
+            bookIsbn: "114.514",
+            bookPrice: "114.514",
+            bookWriter: "作者1",
+
+        };
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                }
+            },
+            methods: {
+                addRequset() {
+                    $.ajax({
+                        url: 'http://localhost:8081/Login',
+                        type: 'POST',
+                        data: {
+                            username: this.username,
+                            password: this.password,
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            this.$message.success('请求成功');
+                            var  cookie = res.headers['set-cookie'];
+                            console.log(cookie);
+                        },
+                        error: (xhr) => {
+                            console.error(xhr.responseText);
+                            this.$message.error('请求失败');
+                          
+                        }
+                    })
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
